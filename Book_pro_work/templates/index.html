@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+</head>
+<body>
+<h1>查看书籍</h1>
+<div class='container'>
+	<div class='row'>
+		<div class='col-md-8 col-md-offset-2'>
+		<div>
+            <a href="{% url 'addbook' %}" class="btn btn-primary">添加书籍</a>
+		</div>
+		<table class='table table-hover table-striped table-bordered'>
+		<thead>
+			<tr>
+				<th>编号</th>
+				<th>书籍名称</th>
+				<th>价格</th>
+				<th>出版日期</th>
+				<th>出版社</th>
+                <th>作者</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+            {% for book in all_objs %}
+                <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{book.title}}</td>
+                <td>{{ book.price }}</td>
+                <td>{{ book.publishDate|date:'Y-m-d'}}</td>
+                <td>{{ book.publish }}</td>
+                <td>
+{#                    {% for all_obj in book.authors.all %}#}
+{#                            {{ all_obj.name }}#}
+{#                        {% if forloop.last %}#}
+{#                          {% else %}#}
+{#                            ,#}
+{#                        {% endif %}#}
+{#                    {% endfor %}#}
+                    {{ book.get_author_name }}
+                </td>
+				<td>
+                    <a href="{% url 'editbook' book.nid%}" class="btn btn-warning">编辑</a>
+{#                    <a href="/delete_book/{{ book.id }}" class="btn alert-danger">删除</a>#}
+                    <a href="{% url 'delbook' book.nid %}" class="btn alert-danger">删除</a>
+				</td>
+			    </tr>
+            {% endfor %}
+
+		</tbody>
+		</table>
+		</div>
+	</div>
+</div>
+</body>
+</html>
